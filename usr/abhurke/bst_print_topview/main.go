@@ -45,15 +45,3 @@ func assignHeightAndDistance(r *bst.Node, m map[int]*scoredNode, d int, h int) {
 		assignHeightAndDistance(r.Right, m, d+1, h+1)
 	}
 }
-
-func main() {
-	r := bst.Insert(nil, 4)
-	bst.Insert(r, 2)
-	bst.Insert(r, 3)
-	bst.Insert(r, 1)
-	bst.Insert(r, 6)
-	bst.Insert(r, 5)
-	bst.Insert(r, 7)
-
-	_ = PrintAndGetTopView(r)
-}
