@@ -93,7 +93,7 @@ export const findTreeWidthAndDepth = (currentNode, currentWidth = 0, currentDept
 
 const _padNode = (arrToFill, start, length, char) => {
     if (arrToFill.length < (start + length)) {
-        arrToFill[start + length] = '';
+        arrToFill[start + length] = undefined;
     }
     arrToFill.fill(char, start, start + length);
 }
@@ -136,7 +136,7 @@ export const findTopNodes = (map) => {
     let topNodes = [];
     for (let y = 0; y < map.length; y++) {
         for (let x = 0; x < map[y].length; x++) {
-            if (topNodes[x] == undefined && map[y][x] != undefined && '/\\'.indexOf(map[y][x]) === -1) {
+            if (topNodes[x] == undefined && map[y][x] != undefined) {
                 topNodes[x] = map[y][x];
             }
         }
