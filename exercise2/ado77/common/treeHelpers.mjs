@@ -68,8 +68,6 @@ export const findTreeWidthAndDepth = (currentNode, currentWidth = 0, currentDept
     depth: 0
 }) => {
 
-    // console.log(`node Value: ${currentNode.value}, current: ${current}, Offset: ${offset.min},${offset.max}`);
-
     if (currentWidth < offset.min)
         offset.min = currentWidth;
 
@@ -102,8 +100,9 @@ const _padNode = (arrToFill, start, length, char) => {
 
 export const buildTreeMap = (map = [], currentNode, x, y, depth) => {
 
-    if (map[y] == undefined)
+    if (map[y] == undefined) {
         map[y] = [];
+    }
 
     map[y][x] = currentNode.value;
 
@@ -122,7 +121,6 @@ export const buildTreeMap = (map = [], currentNode, x, y, depth) => {
 }
 
 export const showTreeMap = (map) => {
-    // console.table(map);
     console.log(' ');
     for (let y = 0; y < map.length; y++) {
         let line = '';
@@ -152,8 +150,10 @@ export const generateRandomTree = (length, useLengthAsRoot = true) => {
         data.push(length);
     }
     for (let index = 0; index < length; index++) {
-        data.push(Math.floor(Math.random() * (2 * length)));
+        data.push(Math.floor(Math.random() * (2 * length)) + 1);
     }
+
+    console.log(JSON.stringify(data));
 
     return data;
 }

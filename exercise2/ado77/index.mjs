@@ -9,7 +9,7 @@ import {
 
 let root = buildTree([50, 36, 25, 1, 66, 55, 54, 53,75, 100]);
 
-// root = buildTree(generateRandomTree(10));
+root = buildTree(generateRandomTree(10));
 
 let { width, depth } = findTreeWidthAndDepth(root);
 console.log(`Width: ${width}, depth: ${depth}`);
