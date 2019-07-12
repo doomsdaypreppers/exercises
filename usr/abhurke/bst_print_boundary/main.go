@@ -1,85 +1,57 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
 
-// Node is a type which forms the building block of a binary tree.
-type Node struct {
-	key   uint64
-	left  *Node
-	right *Node
-}
+	"github.com/doomsdaypreppers/exercises/usr/abhurke/bst"
+)
 
-// Insert inserts a new node creating a BST
-func Insert(root *Node, key uint64) *Node {
-	n := Node{key: key, left: nil, right: nil}
-	if root != nil {
-		insertNode(root, &n)
-	}
-	return &n
-}
-
-func insertNode(node, newNode *Node) {
-	if newNode.key < node.key {
-		if node.left == nil {
-			node.left = newNode
-		} else {
-			insertNode(node.left, newNode)
-		}
-	} else {
-		if node.right == nil {
-			node.right = newNode
-		} else {
-			insertNode(node.right, newNode)
-		}
+func printLeftSubTree(root *bst.Node) {
+	if root != nil && root.Left != nil {
+		fmt.Printf("%d\n", root.Key)
+		printLeftSubTree(root.Left)
 	}
 }
 
-func printLeftSubTree(root *Node) {
-	if root != nil && root.left != nil {
-		fmt.Printf("%d\n", root.key)
-		printLeftSubTree(root.left)
+func printRightSubTree(root *bst.Node) {
+	if root != nil && root.Right != nil {
+		printRightSubTree(root.Right)
+		fmt.Printf("%d\n", root.Key)
 	}
 }
 
-func printRightSubTree(root *Node) {
-	if root != nil && root.right != nil {
-		printRightSubTree(root.right)
-		fmt.Printf("%d\n", root.key)
+func printRightSubTreeWithoutRoot(root *bst.Node) {
+	if root != nil && root.Right != nil {
+		printRightSubTree(root.Right)
 	}
 }
 
-func printRightSubTreeWithoutRoot(root *Node) {
-	if root != nil && root.right != nil {
-		printRightSubTree(root.right)
-	}
-}
-
-func printLeaves(root *Node) {
-	if root != nil && root.left == nil && root.right == nil {
-		fmt.Printf("%d\n", root.key)
+func printLeaves(root *bst.Node) {
+	if root != nil && root.Left == nil && root.Right == nil {
+		fmt.Printf("%d\n", root.Key)
 	} else if root != nil {
-		printLeaves(root.left)
-		printLeaves(root.right)
+		printLeaves(root.Left)
+		printLeaves(root.Right)
 	}
 }
 
-func print(root *Node) {
+func print(root *bst.Node) {
 	if root != nil {
-		fmt.Printf("%d\n", root.key)
-		print(root.left)
-		print(root.right)
+		fmt.Printf("%d\n", root.Key)
+		print(root.Left)
+		print(root.Right)
 	}
 }
 
 func main() {
-	r := Insert(nil, 20)
-	Insert(r, 8)
-	Insert(r, 22)
-	Insert(r, 4)
-	Insert(r, 12)
-	Insert(r, 10)
-	Insert(r, 14)
-	Insert(r, 25)
+	r := bst.Insert(nil, 20)
+	bst.Insert(r, 8)
+	bst.Insert(r, 22)
+	bst.Insert(r, 4)
+	bst.Insert(r, 12)
+	bst.Insert(r, 10)
+	bst.Insert(r, 14)
+	bst.Insert(r, 25)
 	// print the boundary of the tree
 	printLeftSubTree(r)
 	printLeaves(r)
