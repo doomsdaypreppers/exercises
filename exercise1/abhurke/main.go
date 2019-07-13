@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/doomsdaypreppers/exercises/usr/abhurke/bst"
+	"github.com/doomsdaypreppers/exercises/exercise1/abhurke/bst"
 )
 
 func printLeftSubTree(root *bst.Node) {

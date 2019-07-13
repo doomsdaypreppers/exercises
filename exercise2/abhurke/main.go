@@ -1,11 +1,11 @@
-// Package bst_print_topview contains a function to print the top view of a binary tree
-package bst_print_topview
+// Package exercise2 contains a function to print the top view of a binary tree
+package exercise2
 
 import (
 	"fmt"
 	"sort"
 
-	"github.com/doomsdaypreppers/exercises/usr/abhurke/bst"
+	"github.com/doomsdaypreppers/exercises/exercise1/abhurke/bst"
 )
 
 type scoredNode struct {

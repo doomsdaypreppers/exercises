@@ -1,9 +1,9 @@
-package bst_print_topview
+package exercise2
 
 import (
 	"testing"
 
-	"github.com/doomsdaypreppers/exercises/usr/abhurke/bst"
+	"github.com/doomsdaypreppers/exercises/exercise1/abhurke/bst"
 )
 
 func TestTopViewSimple(t *testing.T) {
