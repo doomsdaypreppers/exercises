@@ -3,7 +3,7 @@ package git
 import java.util.*
 import kotlin.collections.ArrayList
 
-data class Commit(val commitHash: String, val children: MutableList<Commit>) {
+data class Commit(val commitHash: String, val children: MutableList<Commit> = arrayListOf()) {
     override fun equals(other: Any?) = when (other) {
             is Commit -> this.commitHash.equals(other.commitHash)
             else -> false
@@ -37,8 +37,12 @@ fun findCommonAncestor(node: Commit?, hash1: String, hash2: String): String? {
     if (node == null) return null
     val branch1 = Stack<Commit>()
     val branch2 = Stack<Commit>()
-    treeSearch(node, "F", branch1)
-    treeSearch(node, "D", branch2)
+    when (treeSearch(node, hash1, branch1)) {
+        false -> return null
+    }
+    when (treeSearch(node, hash2, branch2)) {
+        false -> return null
+    }
     var commonAncestor: String? = null
     for (i in 0 until branch1.size-1) {
         if (branch1[i] == branch2[i]) {
