@@ -1,8 +1,9 @@
 package git
 
 import java.util.*
+import kotlin.collections.ArrayList
 
-data class Commit(val commitHash: String, val parents: MutableList<String>, val children: MutableList<Commit>) {
+data class Commit(val commitHash: String, val children: MutableList<Commit>) {
     override fun equals(other: Any?) = when (other) {
             is Commit -> this.commitHash.equals(other.commitHash)
             else -> false
@@ -29,6 +30,46 @@ data class CommitTree(val root: Commit) {
 }
 
 /**
+ * findCommonAncestor returns the common ancestor (merge base) of two commit hashes
+ * in a git tree.
+ */
+fun findCommonAncestor(node: Commit?, hash1: String, hash2: String): String? {
+    if (node == null) return null
+    val branch1 = Stack<Commit>()
+    val branch2 = Stack<Commit>()
+    treeSearch(node, "F", branch1)
+    treeSearch(node, "D", branch2)
+    var commonAncestor: String? = null
+    for (i in 0 until branch1.size-1) {
+        if (branch1[i] == branch2[i]) {
+            commonAncestor = branch1[i].commitHash
+        } else {
+            break
+        }
+    }
+    return commonAncestor
+}
+
+/**
+ * treeSearch searches the git commit tree for the hash. The branch of commits
+ * to the commit hash can be found pushed on the stack.
+ */
+fun treeSearch(node: Commit?, hash: String, branch: Stack<Commit>): Boolean {
+    if (node == null) return false
+    if (!node.commitHash.equals(hash)) {
+        branch.push(node)
+        node.children.forEach {
+            if( treeSearch(it, hash, branch) ) return true
+        }
+        branch.pop()
+        return false
+    } else {
+        branch.push(node)
+        return true
+    }
+}
+
+/**
  * buildGitCommitTree builds a @CommitTree from 2 same sized arrays of a commit hashes and commit parents.
  */
 fun buildGitCommitTree(commitHashes: Array<String>, commitParents: Array<Array<String>>): CommitTree? {
@@ -37,23 +78,22 @@ fun buildGitCommitTree(commitHashes: Array<String>, commitParents: Array<Array<S
 
     var commitTree: CommitTree? = null
     var commit: Commit? = null
-    val stack: Stack<Commit> = Stack()
+    val parents: MutableList<Commit> = ArrayList()
     for (i in commitHashes.size - 1 downTo 0) {
         if( commit == null ) {
-            commit = Commit(commitHashes[i], mutableListOf<String>(), mutableListOf<Commit>())
+            commit = Commit(commitHashes[i], mutableListOf<Commit>())
             commitTree = CommitTree(commit)
 
         } else {
-            commit = Commit(commitHashes[i], commitParents[i].toMutableList(), mutableListOf<Commit>())
-            val parent = stack.peek()
-            when(commitParents[i].contains(parent.commitHash)){
-                true    -> parent.children.add(commit)
-                false   -> stack.pop()
+            commit = Commit(commitHashes[i], mutableListOf<Commit>())
+            parents.forEach {
+                if (commitParents[i].contains(it.commitHash)){
+                    it.children.add(commit)
+                }
             }
         }
-        stack.push(commit)
+        parents.add(commit)
     }
-
     return commitTree
 }
 
@@ -69,5 +109,6 @@ fun main() {
         arrayOf()
         )
     val commitTree = buildGitCommitTree(commits, parents)
-    println(commitTree)
+    val commonAncestor: String? = findCommonAncestor(commitTree?.root, "F", "D")
+    commonAncestor?.let { println(it) }
 }
