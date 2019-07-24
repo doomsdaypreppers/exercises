@@ -8,6 +8,8 @@ bin-release/
 .settings/
 out/
 .idea
+**/*.iml
+**/target
 *.iml
 vcs.xml
 
