@@ -6,9 +6,12 @@ bin-release/
 
 # Other files and folders
 .settings/
+out/
 .idea
 **/*.iml
 **/target
+*.iml
+vcs.xml
 
 # Executables
 *.swf
